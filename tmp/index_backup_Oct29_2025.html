@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+
+<head>
+  <link rel="stylesheet" href="github.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Quantum Meets</title>
+
+  <style>
+    .markdown-body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+
+    @media (max-width: 767px) {
+      .markdown-body {
+        padding: 15px;
+      }
+    }
+
+    /* --- Toggle Bar --- */
+    .filter-toggle {
+      display: inline-flex;
+      background: #e0e0e0;
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin: 1rem 0;
+    }
+
+    .filter-toggle button {
+      border: none;
+      background: none;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .filter-toggle button:hover {
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .filter-toggle button.active {
+      background: #007bff;
+      color: #fff;
+    }
+
+    /* Hidden events */
+    .hidden {
+      display: none !important;
+    }
+
+    /* optional: visual cue for the wrapper */
+    .event {
+      margin-bottom: 0.6rem;
+      padding: 0.6rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(0,0,0,0.02);
+    }
+  </style>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script>
+    const darkmode_options = {
+      bottom: '32px',
+      right: '32px',
+      time: '0.3s',
+      mixColor: '#fff',
+      backgroundColor: '#fff',
+      buttonColorDark: '#100f2c',
+      buttonColorLight: '#fff',
+      saveInCookies: true,
+      label: '⚛',
+      autoMatchOsTheme: false
+    };
+    function addDarkmodeWidget() {
+      new Darkmode(darkmode_options).showWidget();
+    }
+    window.addEventListener('load', addDarkmodeWidget);
+  </script>
+
+  <script>
+    const markdownUrl_qm = "https://raw.githubusercontent.com/quantum-iiit/quantum-iiit.github.io/refs/heads/main/content.md";
+
+    async function loadSection(headingToExtract, contentID, inputUrl = markdownUrl_qm) {
+      const res = await fetch(inputUrl);
+      const text = await res.text();
+      const level = headingToExtract.match(/^#+/)[0].length;
+      const regex = new RegExp(`${headingToExtract}[\\s\\S]*?(?=\\n#{1,${level}}\\s|$)`, "i");
+      const match = text.match(regex);
+      let section = match ? match[0] : "Section not found.";
+      section = section.replace(/^.*\n/, "");
+      const html = marked.parse(section);
+      document.getElementById(contentID).innerHTML += html;
+      MathJax.typesetPromise([document.getElementById(contentID)]);
+    }
+  </script>
+</head>
+
+<body class="markdown-body">
+  <h1>Quantum Meets</h1>
+
+  <div id="div_about">
+    <script>loadSection("## About", "div_about", markdownUrl_qm)</script>
+  </div>
+
+  <h2>Calendar</h2>
+  <center>
+    <iframe
+      src="https://calendar.google.com/calendar/embed?height=550&wkst=1&ctz=Asia%2FKolkata&showPrint=0&hl=en_GB&mode=AGENDA&title=Quantum%20Meets&src=YjAyNDI5YjRkZWQ5Yzc2YTFlNWU2OTE2MjFkOWRhOTI2M2QzMzkzZDU1ZWZiYTc3MDg2ZjhiNjg4NDcwZDU4OUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%238e24aa"
+      style="border: 0; padding: 0px; width: 90%; height: 550px;" frameborder="0" scrolling="no"></iframe>
+  </center>
+  <br />
+
+  <h2>Upcoming</h2>
+
+  <div id="div_upcoming">
+    <script>loadSection("## Upcoming", "div_upcoming", markdownUrl_qm)</script>
+  </div>
+
+  <h2>Pipeline</h2>
+
+  <!-- Filter Toggle (controls Pipeline events) -->
+  <div class="filter-toggle">
+      <button class="active" data-filter="Seminar">Seminar</button>
+      <button data-filter="Colloquium">Colloquium</button>
+      <button data-filter="Talk">Talk</button>
+      <button data-filter="all">All</button>
+  </div>
+
+  <div id="div_pipeline">
+    <script>loadSection("## Pipeline", "div_pipeline", markdownUrl_qm)</script>
+  </div>
+
+  <h2>Past</h2>
+
+  <div id="div_past">
+    <script>loadSection("## Past", "div_past", markdownUrl_qm)</script>
+  </div>
+
+<script>
+    (function () {
+      const pipelineContainer = document.getElementById('div_pipeline');
+      const buttons = document.querySelectorAll('.filter-toggle button');
+
+      // Utility: normalize text for matching
+      const normalize = s => (s || "").replace(/\s+/g, ' ').trim();
+
+      // When the markdown content is inserted, we want to group event blocks:
+      // for any heading (H2 or H3) that contains "Quantum Seminar|Talk|Colloquium",
+      // wrap that heading and all following sibling nodes up to (but not including)
+      // the next H2/H3 into a single <div class="event" data-type="..."> wrapper.
+      function wrapPipelineEvents() {
+        // Guard: if we've already wrapped, do nothing
+        if (pipelineContainer.querySelector('.event')) {
+          return;
+        }
+
+        // We'll iterate through the direct children of the pipeline container.
+        // Use a static array snapshot because we'll be moving nodes around.
+        const children = Array.from(pipelineContainer.childNodes);
+        const headingRegex = /Quantum\s*(Seminar|Talk|Colloquium)/i;
+
+        for (let i = 0; i < children.length; i++) {
+          const node = children[i];
+          if (!node || node.nodeType !== Node.ELEMENT_NODE) continue;
+
+          const tag = node.tagName.toUpperCase();
+          if (tag === 'H2' || tag === 'H3') {
+            const title = normalize(node.textContent);
+            const match = title.match(headingRegex);
+            if (match) {
+              const type = match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase(); // Seminar/Talk/Colloquium
+
+              // Create wrapper
+              const wrapper = document.createElement('div');
+              wrapper.classList.add('event');
+              wrapper.setAttribute('data-type', type);
+
+              // Move the heading and following nodes into wrapper until next H2/H3
+              let current = node;
+              // We must capture a reference to the node that signals the end (next heading)
+              while (current) {
+                // Save next sibling before moving current
+                const next = current.nextSibling;
+
+                // Append current into wrapper (this removes it from the original position)
+                wrapper.appendChild(current);
+
+                // Stop if next is a heading element (H2 or H3)
+                if (next && next.nodeType === Node.ELEMENT_NODE) {
+                  const nextTag = next.tagName.toUpperCase();
+                  if (nextTag === 'H2' || nextTag === 'H3') {
+                    break;
+                  }
+                }
+                current = next;
+              }
+
+              // Insert wrapper in place of where the first node (heading) was
+              // If there's a next sibling, insertBefore it; else append at end
+              const referenceNode = wrapper.nextSibling; // will be null here
+              if (children[i].parentNode) {
+                // after moving, insert wrapper at the position of the first moved node's former parent
+                // Find where to insert: it's the first element in children after i that still exists in DOM,
+                // but simpler: insert wrapper at the position of the node that used to be next (if still present), else append
+                // We'll insert before the element that now occupies children[i] (if any), else append
+                // Safer approach: find the first element in children after i that is still in the DOM and use it as reference
+                let ref = null;
+                for (let j = i + 1; j < children.length; j++) {
+                  if (children[j] && children[j].parentNode === pipelineContainer) {
+                    ref = children[j];
+                    break;
+                  }
+                }
+                pipelineContainer.insertBefore(wrapper, ref);
+              } else {
+                // fallback
+                pipelineContainer.appendChild(wrapper);
+              }
+            }
+          }
+        }
+      }
+
+      // Filtering function: toggles .hidden depending on data-type
+      function applyFilter(filter) {
+        const events = pipelineContainer.querySelectorAll('.event');
+        events.forEach(ev => {
+          const type = ev.getAttribute('data-type') || '';
+          const show = (filter === 'all') || (type.toLowerCase() === filter.toLowerCase());
+          ev.classList.toggle('hidden', !show);
+        });
+      }
+
+      // Attach click handlers to toggle buttons
+      function attachButtonHandlers() {
+        buttons.forEach(btn => {
+          // prevent attaching twice
+          if (btn._hasHandler) return;
+          btn._hasHandler = true;
+          btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter || 'all';
+            applyFilter(filter);
+          });
+        });
+      }
+
+      // Observe pipeline container for content insertion
+      const observer = new MutationObserver((mutations, obs) => {
+        // If there are element children, assume content is rendered
+        const hasChildElements = Array.from(pipelineContainer.childNodes).some(n => n.nodeType === Node.ELEMENT_NODE);
+        if (!hasChildElements) return;
+
+        // Wrap the pipeline events into .event blocks
+        wrapPipelineEvents();
+
+        // Attach handlers now that event wrappers exist
+        attachButtonHandlers();
+
+        // Ensure default filter state (All) is applied
+        applyFilter('all');
+
+        // We can stop observing after the first meaningful render + wrap
+        obs.disconnect();
+      });
+
+      observer.observe(pipelineContainer, { childList: true, subtree: true });
+
+      // Also run a delayed attempt in case content was already inserted before observer attached
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          wrapPipelineEvents();
+          attachButtonHandlers();
+          applyFilter('all');
+        }, 600);
+      });
+    })();
+  </script>
+</body>
+</html>
