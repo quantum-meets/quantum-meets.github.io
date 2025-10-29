@@ -24,69 +24,92 @@
         }
 
 
-        /* --- Scrollable Filter Toggle with Edge Fade --- */
+
+
+        /* --- Toggle Bar --- */
+/* --- Scrollable Filter Toggle with Edge Fade --- */
+.filter-toggle {
+  position: relative;
+  display: flex;                  /* ✅ allow proper flex layout */
+  background: #e0e0e0;
+  border-radius: 999px;
+  overflow-x: auto;               /* ✅ enable horizontal scrolling */
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin: 0.4rem 0;
+  scrollbar-width: none;          /* hide scrollbar in Firefox */
+  max-width: 100%;                /* ✅ fit mobile width */
+}
+
+.filter-toggle::-webkit-scrollbar {
+  display: none;                  /* hide scrollbar in Chrome/Safari */
+}
+
+.filter-toggle button {
+  border: none;
+  background: none;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  flex: 0 0 auto;                 /* ✅ prevent buttons from shrinking */
+}
+
+.filter-toggle button:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.filter-toggle button.active {
+  background: #007bff;
+  color: #fff;
+}
+
+/* Optional: subtle fade hints at edges */
+.filter-toggle::before,
+.filter-toggle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 1.5rem;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.filter-toggle::before {
+  left: 0;
+  background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.filter-toggle::after {
+  right: 0;
+  background: linear-gradient(to left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+
+
+        /* Make toggle bar scrollable on mobile */
         .filter-toggle {
-            position: relative;
-            display: inline-flex;
+            display: flex;
             background: #e0e0e0;
             border-radius: 999px;
             overflow-x: auto;
+            /* allow horizontal scroll */
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
+            /* smooth scrolling on iOS */
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin: 1rem 0;
+            margin: 0.4rem 0;
             scrollbar-width: none;
-            /* hide scrollbar (Firefox) */
+            /* hide scrollbar in Firefox */
         }
 
         .filter-toggle::-webkit-scrollbar {
             display: none;
-            /* hide scrollbar (Chrome/Safari) */
+            /* hide scrollbar in Chrome/Safari */
         }
 
-        /* Buttons inside */
-        .filter-toggle button {
-            border: none;
-            background: none;
-            padding: 0.6rem 1.2rem;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
-            flex: 0 0 auto;
-        }
-
-        .filter-toggle button:hover {
-            background: rgba(0, 0, 0, 0.08);
-        }
-
-        .filter-toggle button.active {
-            background: #007bff;
-            color: #fff;
-        }
-
-        /* Fade hint gradients on both sides */
-        .filter-toggle::before,
-        .filter-toggle::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            width: 2rem;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .filter-toggle::before {
-            left: 0;
-            background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-        }
-
-        .filter-toggle::after {
-            right: 0;
-            background: linear-gradient(to left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-        }
-
-        /* --- Toggle Bar --- */
         /* .filter-toggle {
             display: inline-flex;
             background: #e0e0e0;
@@ -94,7 +117,7 @@
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             margin: 1rem 0;
-        }
+        } */
 
         .filter-toggle button {
             border: none;
@@ -112,7 +135,8 @@
         .filter-toggle button.active {
             background: #007bff;
             color: #fff;
-        } */
+        }
+
 
         /* Hidden events */
         .hidden {
