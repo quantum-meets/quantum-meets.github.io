@@ -62,19 +62,22 @@
         .filter-toggle button {
             border: none;
             /* background: none; */
+            border-radius: 10px;
+            margin: 0.2rem 0.2rem;
             background: rgba(0, 0, 0, 0.03);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
             padding: 0.6rem 1.2rem;
             cursor: pointer;
             font-weight: 500;
-            transition: background 0.2s, color 0.2s;
+            transition: background ease-in-out 0.2s, color ease-in-out 0.2s;
         }
 
         .filter-toggle button:hover {
-            background: rgba(0, 0, 0, 0.08);
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .filter-toggle button.active {
+            /* border-radius: 10px; */
             background: #007bff;
             color: #fff;
         }
