@@ -192,15 +192,6 @@
             MathJax.typesetPromise([document.getElementById(contentID)]);
         }
     </script>
-
-    <script>
-          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone; 
-            // const baseUrl = "https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID";
-            const baseUrl = "https://calendar.google.com/calendar/embed?height=550&wkst=1&showPrint=0&hl=en_GB&mode=AGENDA&title=Quantum%20Meets&src=YjAyNDI5YjRkZWQ5Yzc2YTFlNWU2OTE2MjFkOWRhOTI2M2QzMzkzZDU1ZWZiYTc3MDg2ZjhiNjg4NDcwZDU4OUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%238e24aa"
-            const url = baseUrl + "&ctz=" + encodeURIComponent(tz);
-
-            document.getElementById("gcal-embed").src = url;
-    </script>
 </head>
 
 <body class="markdown-body">

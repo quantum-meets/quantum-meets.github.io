@@ -204,19 +204,21 @@
     <h2>Calendar</h2>
     <center>
             <!-- src="https://calendar.google.com/calendar/embed?height=550&wkst=1&ctz=Asia%2FKolkata&showPrint=0&hl=en_GB&mode=AGENDA&title=Quantum%20Meets&src=YjAyNDI5YjRkZWQ5Yzc2YTFlNWU2OTE2MjFkOWRhOTI2M2QzMzkzZDU1ZWZiYTc3MDg2ZjhiNjg4NDcwZDU4OUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%238e24aa" -->
+            <!-- src="https://calendar.google.com/calendar/embed?height=550&wkst=1&showPrint=0&hl=en_GB&mode=AGENDA&title=Quantum%20Meets&src=YjAyNDI5YjRkZWQ5Yzc2YTFlNWU2OTE2MjFkOWRhOTI2M2QzMzkzZDU1ZWZiYTc3MDg2ZjhiNjg4NDcwZDU4OUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%238e24aa" -->
         <iframe
-            src="https://calendar.google.com/calendar/embed?height=550&wkst=1&showPrint=0&hl=en_GB&mode=AGENDA&title=Quantum%20Meets&src=YjAyNDI5YjRkZWQ5Yzc2YTFlNWU2OTE2MjFkOWRhOTI2M2QzMzkzZDU1ZWZiYTc3MDg2ZjhiNjg4NDcwZDU4OUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%238e24aa"
+            id="gcal-embed"
             style="border: 0; padding: 0px; width: 90%; height: 550px;" frameborder="0" scrolling="no"></iframe>
     </center>
     <br />
 
     <h2>Upcoming</h2>
-
+    NB. The timezone is India/Kolkata GMT+5:30
     <div id="div_upcoming">
         <script>loadSection("## Upcoming", "div_upcoming", markdownUrl_qm)</script>
     </div>
 
     <h2>Pipeline</h2>
+    NB. The timezone is India/Kolkata GMT+5:30
 
     <!-- Filter Toggle (controls Pipeline events) -->
     <div class="filter-toggle">
@@ -383,6 +385,14 @@
                     setTimeout(tryApplyDefault, 1000); // second attempt after markdown loads
                 });
             })();
+    </script>
+
+    <script>
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone; 
+            // const baseUrl = "https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID";
+            const baseUrl = "https://calendar.google.com/calendar/embed?height=550&wkst=1&showPrint=0&hl=en_GB&mode=AGENDA&title=Quantum%20Meets&src=YjAyNDI5YjRkZWQ5Yzc2YTFlNWU2OTE2MjFkOWRhOTI2M2QzMzkzZDU1ZWZiYTc3MDg2ZjhiNjg4NDcwZDU4OUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%238e24aa"
+            const url = baseUrl + "&ctz=" + encodeURIComponent(tz);
+            document.getElementById("gcal-embed").src = url;
     </script>
 
 </body>
